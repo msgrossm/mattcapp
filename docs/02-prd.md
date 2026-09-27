@@ -120,6 +120,12 @@ minutes or two months.
 
 ## 6. User stories & acceptance criteria
 
+**This list is not final.** Three stories plus one cut is thin against the
+assignment's expected 8–12, and it reflects three interviews, not the
+larger set a full PRD should rest on. More stories are coming as further
+interviews (ideally NY-specific — see §8) and the court-logistics and
+follow-up-tracking ideas noted in §5 get evidenced and written up.
+
 Source tags: **[I-Dagi]**, **[I-Self]**, **[I-Friend]** = one of the three
 W03 interviews; **[A]** = assumption, explicitly unvalidated.
 
