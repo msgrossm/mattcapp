@@ -40,12 +40,13 @@ personal experience, not yet independently validated.)*
 
 | Claim | Number | Source | Status |
 |---|---|---|---|
-| NY assigns points per violation on a fixed schedule | See point table below | [dmv.ny.gov/points-and-penalties/the-new-york-state-driver-point-system](https://dmv.ny.gov/points-and-penalties/the-new-york-state-driver-point-system) — verified 2026-09-27 | **Have** |
-| NY charges a Driver Responsibility Assessment above a point threshold | Threshold stated as "6 or more points... within 18 months," paid "over a three-year period"; no dollar figure on official page | [dmv.ny.gov/driver-license-points-and-penalties](https://dmv.ny.gov/driver-license-points-and-penalties) — verified 2026-09-27 | **Partial** — trigger known, dollar amount not found on an official page yet |
-| NY's point/DRA rules changed materially in Feb 2026 | Third-party sources describe a Feb 16, 2026 overhaul (new 10pt/24mo threshold, construction-zone speeding flat at 8pts); the official page fetched today still shows old-looking 11pt/18mo and 6pt/18mo language | Third-party legal-blog search results vs. live dmv.ny.gov page, both checked 2026-09-27 | **Conflicting — unresolved.** This is exactly the "confident interface, wrong data" risk the concept brief named. Do not ship a point value without re-verifying against the primary DMV source at build time, not this research pass. |
-| Fine amounts per violation (dollar ranges, not just points) | — | Not yet pulled from an official source (VTL statute / NY courts fee schedule) | **No data yet** — plan to source before MVP build, not invent a plausible-sounding range |
+| NY assigns points per violation on a fixed schedule | Common violations (unchanged by the Feb 2026 amendment): speeding 1–10mph over = 3, 11–20 = 4, 21–30 = 6, 31–40 = 8, 40+ = 11; following too closely = 4; disobeying a signal/stop sign = 3. Nine *specific* violations changed 2/16/26 — e.g. Aggravated Unlicensed Operation 0→11, passing a stopped school bus 5→8, construction-zone speeding "based on speed"→flat 8, failure to exercise due care 2→5 — full old/new table in the DMV Commissioner's memo. | [dmv.ny.gov point table](https://dmv.ny.gov/points-and-penalties/the-new-york-state-driver-point-system) (common violations) + [DMV Commissioner memo "P"2/"M"1 (2026), Jan 30 2026](https://www.ejustice.ny.gov/LawEnforcement/docs/dmv/P2M12026.pdf) (the 9 changed violations, primary regulatory source, signed by Commissioner Schroeder, citing 15 NYCRR §131.3–131.4) — verified 2026-09-27 | **Have**, for both the unchanged common violations and the 9 that changed 2/16/26 |
+| NY's point system changed Feb 2026 — is it real and in effect? | **Resolved.** Confirmed by primary source: DMV regulatory amendments adopted 11/6/2024, published in the State Register 1/14/2026, enforceable for violations on/after 2/16/2026. Look-back period for persistent-violator administrative action extended 18mo→24mo. (The oft-repeated "11→10 point suspension threshold" figure is still only secondary-sourced — the primary memo confirms the look-back extension but its excerpted table doesn't itself state that specific number change.) | [DMV memo, as above](https://www.ejustice.ny.gov/LawEnforcement/docs/dmv/P2M12026.pdf) — verified 2026-09-27 | **Have** (memo) / **secondary-only** (the 10-point figure specifically) |
+| NY charges a Driver Responsibility Assessment above a point threshold | 6+ points within 18 months (separate, unchanged threshold from the persistent-violator suspension rule above — these are two different NY mechanisms, easy to conflate). $100/yr for 6 points ($300 over 3 yrs); +$25/yr per additional point (+$75 over 3 yrs each). Alcohol/drug-related: $250/yr ($750 over 3 yrs). | [dmv.ny.gov/how-pay-driver-responsibility-assessment](https://dmv.ny.gov/how-pay-driver-responsibility-assessment) — verified 2026-09-27 | **Have** |
+| Fine amounts per violation (dollar ranges) | VTL §1180 speeding, statutory text: ≤10mph over = $45–150; 11–30mph over = $90–300 (+ up to 15 days); >30mph over = $180–600 (+ up to 30 days). School-zone violations run higher. Plus a mandatory state surcharge, commonly cited at $93 outside NYC. | [NY Senate — VAT §1180 statute text](https://www.nysenate.gov/legislation/laws/VAT/1180) (fine ranges, verified 2026-09-27); surcharge figure via NYS Comptroller guidance, dated 2013 — **re-verify this one, it's the oldest source in this table** | **Have** for §1180 speeding specifically; **not yet done** for the other ~14 target violations — same statute-lookup method, just not completed this pass |
+| Which violations are actually highest-volume (for the MVP violation list) | Real ranked counts, NY statewide, four-year window: SPEED IN ZONE (1,565,830), DISOBEYED TRAFFIC DEVICE (844,218), SPEED OVER 55 ZONE (630,109), OPERATING W/ PORTABLE ELECTRONIC DEVICE (357,043), FAILED TO STOP AT STOP SIGN (346,240), AGGRAVATED UNLICENSED OP 3RD MISD. (308,689), MOVED FROM LANE UNSAFELY/WEAVING (197,430), SPEED NOT REASONABLE AND PRUDENT (173,038), OPERATING W/ MOBILE PHONE (170,289), FAILED TO YIELD TO PEDESTRIAN/VEHICLE (147,980) — plus several high-count administrative violations (unlicensed operator, uninspected/unregistered vehicle, no insurance) that are common but don't fit the pay-vs-fight moving-violation job the same way. | [data.ny.gov "Traffic Tickets Issued: Four Year Window" (q4hy-kbtf)](https://data.ny.gov/Transportation/Traffic-Tickets-Issued-Four-Year-Window/q4hy-kbtf), queried directly via the Socrata API — verified 2026-09-27 | **Have** — this replaces a guess with a real ranking; the MVP violation list in §5 should be built from this, filtered to point-bearing moving violations |
 | A first moving-violation conviction raises insurance premiums | One data point: ~30% increase, delayed until the subject's renewal cycle, per phone calls to insurers (not an NY policy, and not a published rate table) | W03 self-interview | **Anecdotal, single subject, non-NY policy — not generalizable** |
-| Volume: tickets issued per year in a Syracuse-area county | — | Not sourced (ITSMR publishes NY traffic-safety data by county; not pulled this pass) | **No data yet** |
+| Volume: tickets issued per year in a Syracuse-area county specifically | The statewide ranking above exists; not yet filtered to Onondaga County | Same data.ny.gov dataset supports this filter; not run this pass | **Have the data source, haven't run the query** |
 | Awareness: share of drivers who don't know their violation carries points | — | No public figure found; likely requires primary data (a short SU student survey) | **No data yet — best candidate for primary research if time allows** |
 
 ## 4. Users & the job to be done
@@ -77,9 +78,19 @@ minutes or two months.
 
 ### In scope (MVP)
 
-- Point value lookup for the ~15 highest-volume NY moving violations
-  (sourced from the official DMV point table — see §3), each violation
-  showing its point value, source link, and last-verified date.
+- Point value lookup for the highest-volume NY point-bearing moving
+  violations — per §3's real ranked data, that's speeding brackets,
+  disobeying a traffic device, failure to stop at a stop sign, using a
+  mobile phone/portable electronic device while driving, moving unsafely
+  between lanes, and failure to yield to a pedestrian/vehicle, at minimum
+  — each violation showing its point value, source link, and last-verified
+  date. (The ranking also surfaced high-volume *administrative* violations —
+  unlicensed operator, uninspected/unregistered vehicle, no insurance — that
+  don't fit the pay-vs-fight moving-violation job the same way; decide
+  explicitly whether to include them or hold them for a later pass.)
+- Fine range lookup, same violation set — §1180 speeding is sourced
+  end-to-end (statute text, §3); the remaining violations need the same
+  statute-lookup pass before build, not a plausible-sounding guess.
 - A pay-vs-fight cost comparison framed as a **structured comparison**, not
   a single verdict: points + fine range (once sourced) + DRA exposure vs. a
   labeled, ranged estimate of typical contest costs — never a single "you
@@ -152,10 +163,13 @@ answer without extra work).
 Acceptance criteria:
 - Given a supported violation, the product shows the fine range and DRA
   trigger condition, each labeled as a range, never a single "you owe"
-  number — and each with a source and last-verified date.
-- If fine data isn't sourced yet for a violation (true for all of them as of
-  this PRD — see §3), the product says so rather than inventing a
-  plausible-looking number.
+  number — and each with a source and last-verified date. (E.g. for
+  speeding 11–30mph over under VTL §1180, that's "$90–$300, plus imprisonment
+  up to 15 days as a statutory maximum, plus a ~$93 mandatory surcharge" —
+  sourced in §3, not invented.)
+- If fine data isn't sourced yet for a violation (true for most of the
+  target set as of this PRD — §1180 speeding is done, the rest aren't — see
+  §3), the product says so rather than inventing a plausible-looking number.
 - The product does not attempt to price "the cost of fighting it" (lawyer
   fees) — no data exists yet to range that responsibly (see §5, out of
   scope) — but does state, in plain language, that contesting typically
@@ -206,36 +220,61 @@ which turned out to be true for all three.
 
 ## 8. Open questions
 
-Ranked by how much they'd change this document if answered:
+Ranked by how much they'd change this document if answered. (1)–(4) below
+are what a fresh "builder test" read of this PRD flagged as blocking or
+design-critical; the first four sub-items under (1) were resolvable by
+direct research and are now closed — see §3 for the sourced answers.
 
-1. **Zero of three interviews conducted are New York tickets** (Ethiopia,
+1. **Blocking data — now substantially closed:**
+   - ~~Is the Feb 2026 overhaul real and in effect?~~ **Resolved** — primary
+     DMV Commissioner memo confirms 2/16/2026 effective date. (The specific
+     "11→10 point suspension threshold" number is still only
+     secondary-sourced, though the look-back extension 18mo→24mo is
+     primary-confirmed.)
+   - Fine dollar ranges per violation: **partially resolved** — VTL §1180
+     speeding is sourced end-to-end from statute text; the remaining ~14
+     target violations need the same lookup, not done this pass.
+   - DRA dollar amount: **resolved** — $100/yr+$25/pt over 6, $250/yr for
+     alcohol/drug, both from an official DMV page.
+   - Which violations are highest-volume: **resolved** — real statewide
+     ranked ticket-count data now backs the MVP violation list in §5,
+     replacing a guess.
+2. **Zero of three interviews conducted are New York tickets** (Ethiopia,
    New Hampshire, New Jersey). The underlying job — cost/consequence
    uncertainty, workarounds that fail, a real pay-vs-fight decision — is now
-   corroborated three times, independently. No NY-specific fact in this PRD
-   (fine amounts, court process, insurance framing) has interview backing.
-   A real NY interview would be the single highest-value thing to add before
-   CP-M3.
-2. **The Feb 2026 NY point-system overhaul isn't cleanly confirmed.**
-   Third-party sources describe new thresholds; the live official DMV page
-   pulled today still reads with older-looking language. This needs a
-   direct re-check against the primary source at build time — not resolved
-   by this research pass.
-3. **No fine dollar amounts are sourced yet** — only point values. This is
-   the largest concrete gap between "have" and "need" in §3's evidence
-   table.
-4. **Insurance-impact framing is harder than "a number per violation."** The
-   self-interview shows it depends on where a driver is in their own renewal
-   cycle, not just the violation — worth deciding now whether TicketPath
-   attempts this at all, even as a range, or states plainly it can't.
-5. Volume and awareness statistics (§3) have no source. A short SU-student
-   survey is the most honest way to get a Spotify-style quantified urgency
-   claim, per the D04 lesson, rather than citing a borrowed national number
-   that may not represent this product's actual users.
+   corroborated three times, independently. No NY-specific *interview*
+   evidence exists (the data above is now real, but it's official-source
+   data, not user evidence) — a real NY interview is still the single
+   highest-value thing to add before CP-M3.
+3. **Design decisions that data can't answer** — carried over from the
+   builder-test read, unresolved by research and needing a call from the
+   builder, not a source lookup:
+   - The specific adversarial test prompts and required refusal wording for
+     the "never recommends" legal line (§7) — e.g. "just tell me what to
+     do," "what would you do," "is it worth it."
+   - What "refuse rather than estimate" looks like in the UI specifically —
+     a blocked state vs. a partial card with an explicit gap callout.
+   - Whether the MVP needs two flows for the quick-resolver vs.
+     deep-investigator persona split (§4), or one flow that serves both.
+   - Whether a quick SU-student survey for volume/awareness stats (§3) is
+     actually planned, and on what timeline — or the MVP ships without a
+     quantified urgency claim at all.
+   - Data liability: is TicketPath comfortable being the source of record on
+     legal/financial exposure with no attorney review, given it explicitly
+     steers users away from lawyers as the first call?
+4. The $93 mandatory-surcharge figure (§3) traces to 2013 state-comptroller
+   guidance — the oldest, least-recently-verified source in this document.
+   Re-check it before build; don't ship it on today's verification date
+   alone.
 
 ## 9. Sources
 
-- [dmv.ny.gov/points-and-penalties/the-new-york-state-driver-point-system](https://dmv.ny.gov/points-and-penalties/the-new-york-state-driver-point-system) — point value table, verified 2026-09-27.
-- [dmv.ny.gov/driver-license-points-and-penalties](https://dmv.ny.gov/driver-license-points-and-penalties) — DRA trigger description, verified 2026-09-27.
+- [dmv.ny.gov/points-and-penalties/the-new-york-state-driver-point-system](https://dmv.ny.gov/points-and-penalties/the-new-york-state-driver-point-system) — point value table (common violations), verified 2026-09-27.
+- [DMV Commissioner memo "P"2/"M"1 (2026), Jan 30 2026](https://www.ejustice.ny.gov/LawEnforcement/docs/dmv/P2M12026.pdf) — primary regulatory source for the 9 violations whose points changed 2/16/2026, and the 18→24 month look-back extension. Cached copy also saved to this session's tool-results for re-reference.
+- [dmv.ny.gov/how-pay-driver-responsibility-assessment](https://dmv.ny.gov/how-pay-driver-responsibility-assessment) — DRA dollar amounts, verified 2026-09-27.
+- [NY Senate — VAT §1180 statute text](https://www.nysenate.gov/legislation/laws/VAT/1180) — speeding fine ranges, verified 2026-09-27.
+- NYS Comptroller guidance (2013) — $93 mandatory surcharge figure; **oldest source in this document, flagged for re-verification in §8.**
+- [data.ny.gov — "Traffic Tickets Issued: Four Year Window" (q4hy-kbtf)](https://data.ny.gov/Transportation/Traffic-Tickets-Issued-Four-Year-Window/q4hy-kbtf) — real violation-count ranking, queried via the Socrata API, verified 2026-09-27.
 - `docs/research/w03-interview-dagi.md` — Dagi, Ethiopia ticket.
 - `docs/research/w03-interview-self.md` — self, New Hampshire ticket.
 - `docs/research/w03-interview-friend.md` — friend, New Jersey ticket.
