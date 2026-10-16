@@ -108,8 +108,12 @@ unknowns (lawyer cost, likely outcome) stated as unknowns.
   surcharge (PRD §8 Q4) already needs it.
 - **Cost carried over from D06.** Supabase doesn't delete old guest case
   files on its own. This only matters if the case-file boxes in §4 survive.
-- **Familiarity.** *TODO (mine): say plainly whether "it's what I know" is
-  part of this, and how much.*
+- **Familiarity.** This is a cost, not a reason. I had never used Next.js or
+  Supabase before this class, and I wrote the prototype with Claude, so I
+  can't count plain JS either. I chose this stack after class discussion and
+  after talking with classmates who are building similar products and have
+  more front-end and backend-as-a-service experience. The cost is learning
+  two new platforms in about five weeks.
 
 ## 7. Open before build
 
@@ -117,7 +121,6 @@ unknowns (lawyer cost, likely outcome) stated as unknowns.
 - PRD §8 Q3 decisions that change the screens: what the refusal looks like
   (a blocked state, or a partial card with a gap callout), and whether there
   is one flow or two (quick resolver vs. deep investigator).
-- Decision record 0001: write the "what would change my mind" line.
 
 ## Revision log
 
