@@ -209,6 +209,70 @@ here, not deleted, so the traceability trail stays intact: this is where the
 project first noticed all its interview evidence might not be NY-based,
 which turned out to be true for all three.
 
+### Story 5 — Read my ticket photo (new — CP-M4)
+
+**As a driver holding a paper ticket I can't read, I want to photograph it
+and have the violation filled in for me, so I don't have to decode a
+handwritten violation code before I can get an answer.**
+
+Source: **[A]** — the concept brief's persona ("a paper ticket they can't
+read") and the D06 requirements list. **No interview evidence.** None of the
+three W03 subjects mentioned photographing a ticket, trouble reading one, or
+an undecodable violation code; grepping all three transcripts for
+photo/picture/camera/scan returns nothing. This is the thinnest-sourced story
+in this document and keeps that label until a NY interview says otherwise.
+
+Acceptance criteria:
+- Extraction output is a **draft**. Nothing is saved and no points, fine or
+  DRA lookup runs until the user confirms the fields.
+- Every null field, and every field the model flagged as uncertain, is
+  visibly marked for the user to check (§7 data rule — an unverified reading
+  is never presented as fact).
+- If the image isn't a traffic ticket, is unreadable, or the response is
+  malformed, the product says so and falls back to the manual question flow.
+  It never guesses a violation (Story 1 AC2).
+- If the citation was issued by another state, the product names the state and
+  refuses, rather than scoring it against the New York point table (§5,
+  non-NY tickets out of scope). A state it can't read is flagged for the user
+  to confirm, not assumed to be New York.
+- A confirmed violation enters **the same lookup path** as the manual flow.
+  The photo is never a second source of truth: points and fine ranges still
+  come from the sourced tables, never from the model.
+- If the ticket prints a payable amount, it is displayed labeled **"printed
+  on your ticket"** and kept visually separate from the Story 2 cost range.
+  It is never summed into a total or presented as what the ticket will cost.
+- The photo is **not retained** after extraction (decision record 0002).
+- No premium-increase figure appears (Story 1 AC3 holds by construction).
+- Empty state: no photo chosen. Error states: not-a-ticket, unreadable, API
+  failure, malformed output.
+
+### Story 6 — Keep my tickets in one place (new — CP-M4)
+
+**As a driver who wants to know whether this ticket pushes me over the
+6-point threshold, I want to save my tickets to an account, so the product
+can count my points across the last 18 months.**
+
+Source: **[A]** + D06 requirements 1, 3, 4, 6, 7. **No interview evidence**
+for accounts either — no W03 subject asked to save or revisit a ticket. The
+DRA threshold in §3 is what makes a saved history useful: the assessment
+depends on points accumulated within 18 months, which a single lookup can't
+see.
+
+Acceptance criteria:
+- A guest can scan, confirm and see points and cost **without an account**.
+  An account is required only to save a ticket (D06's "guest-to-account").
+- A saved ticket belongs to exactly one user. Row-level security enforces
+  that a user can read and write only their own rows.
+- Given the user's saved tickets within the last 18 months, the product shows
+  the running point total and whether the 6-point DRA threshold is crossed,
+  with the DMV source link and last-verified date (§3, §7).
+- The product never displays a premium-increase percentage or dollar figure
+  (Story 1 AC3). The insurance question is stated as a known unknown, in the
+  Story 3 pattern: insurers price on their own models and TicketPath cannot
+  predict a given policy.
+- Empty state: signed in with no saved tickets. Error states: save failure,
+  expired session, RLS denial.
+
 ## 7. Data & legal rules
 
 - **Data rule:** every number the product displays states its source and a

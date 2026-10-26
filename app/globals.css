@@ -1,0 +1,141 @@
+/* Ticket FIX — app styles. Same yellow/black language as the landing page. */
+
+:root {
+  --yellow: #ffe74c;
+  --black: #1c1c1c;
+  --page: #262626;
+  --white: #fff;
+  --muted: #4b4b4b;
+  --line: #deded8;
+  --warn: #8a6d00;
+  --error: #b42318;
+  --gutter: clamp(1rem, 4vw, 2rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--black);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 44rem;
+  margin-inline: auto;
+  padding: var(--gutter);
+  display: grid;
+  gap: 1.5rem;
+}
+
+.page__title {
+  margin: 0;
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.page__title span { color: var(--yellow); }
+
+.scan, .review, .signin, .casefile {
+  padding: clamp(1.25rem, 4vw, 2rem);
+  background: var(--white);
+  border-radius: 1.25rem;
+}
+.scan h2, .review h2, .signin h2, .casefile h2 { margin: 0 0 0.75rem; font-size: 1.4rem; }
+.review__intro, .signin p { color: var(--muted); }
+
+.scan__label, .field__label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 800;
+  font-size: 0.9375rem;
+}
+.scan__input { display: block; width: 100%; font: inherit; }
+.scan__hint, .field__hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.scan__preview {
+  display: block;
+  width: 100%;
+  max-height: 22rem;
+  margin-top: 1rem;
+  object-fit: contain;
+  border: 3px solid var(--black);
+  border-radius: 0.9rem;
+  background: #f4f4f0;
+}
+
+/* Empty / loading / error / warn / info — every feature has all of them. */
+.panel-note {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.9rem;
+  border: 3px dashed rgb(0 0 0 / 0.35);
+  background: #faf9f4;
+  font-size: 0.9375rem;
+}
+.panel-note p { margin: 0; }
+.panel-note__title { font-weight: 800; margin-bottom: 0.2rem !important; }
+.panel-note[data-state='working'] { border-style: solid; border-color: var(--black); }
+.panel-note[data-state='info'] { border-style: solid; border-color: var(--line); }
+.panel-note[data-state='warn'] { border-style: solid; border-color: var(--yellow); background: #fffbe6; }
+.panel-note[data-state='warn'] .panel-note__title { color: var(--warn); }
+.panel-note[data-state='error'] { border-style: solid; border-color: var(--error); background: #fef3f2; }
+.panel-note[data-state='error'] .panel-note__title { color: var(--error); }
+
+.review__fields { display: grid; gap: 1.1rem; margin: 1.5rem 0; }
+
+.field__input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.6rem 0.85rem;
+  border: 3px solid var(--black);
+  border-radius: 0.75rem;
+  background: var(--white);
+  color: var(--black);
+  font: inherit;
+}
+.field__input:focus-visible { outline: 3px solid var(--black); outline-offset: 3px; }
+
+/* Anything null or low-confidence is visibly marked (PRD Story 5). */
+.field[data-flagged] .field__input { border-color: var(--warn); background: #fffbe6; }
+.field__flag { color: var(--warn); font-weight: 800; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0.75rem 1.75rem;
+  border: 3px solid var(--black);
+  border-radius: 0.9rem;
+  font: inherit;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+.btn--dark { background: var(--black); color: var(--yellow); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.signin { display: grid; gap: 0.5rem; }
+.signin .btn { margin-top: 0.75rem; justify-self: start; }
+
+.casefile__list { margin: 0 0 1.25rem; padding: 0; list-style: none; display: grid; gap: 0.9rem; }
+.casefile__item {
+  padding: 0.9rem 1.1rem;
+  border: 2px solid var(--line);
+  border-radius: 0.9rem;
+}
+.casefile__item strong { display: block; }
+.casefile__item span { font-size: 0.875rem; color: var(--muted); }
+.casefile__item p { margin: 0.35rem 0 0; font-size: 0.9375rem; }
+.casefile__printed { color: var(--muted); }

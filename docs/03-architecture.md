@@ -48,15 +48,22 @@ story or comes off the map. They're drawn dashed on the map until I decide.
 
 | Box | Where it came from | What has to happen |
 |---|---|---|
-| Claude API | Concept brief stack guess; PRD §7 legal-drift risk | No story uses a conversational layer. Stories 1–3 come straight from the table. Write a story (e.g. "describe my ticket in my own words" or "read my ticket photo") or cut it from the MVP |
-| Supabase Auth (guest → account, case files) | D06 requirements 1, 3, 4, 6, 7 | No story needs an account. Add one or cut |
-| Supabase Storage (ticket photos) | D06 requirements 2, 5 | No story needs a photo. Add one or cut. If it stays, the photo is the most sensitive data in the product |
-| Admin view | D06 requirement 8 | No story. Add one or cut |
+| ~~Claude API~~ | Concept brief stack guess; PRD §7 legal-drift risk | **Closed 2026-10-22.** PRD Story 5 ("read my ticket photo") now needs it. Scoped tightly by record 0002: the model reads what is printed on the paper and nothing else — points and fine ranges still come from the sourced tables, so §7 holds |
+| ~~Supabase Auth (guest → account, case files)~~ | D06 requirements 1, 3, 4, 6, 7 | **Closed 2026-10-22.** PRD Story 6 needs an account to count points across the 18-month DRA window. Guest-to-account, per D06: scanning and lookup need no account, saving does |
+| Supabase Storage (ticket photos) | D06 requirements 2, 5 | **Cut 2026-10-22.** Record 0002 discards the photo after extraction. No story needs the original image back, and keeping it would put a licence number and address at rest. Re-opening it needs a retention rule in the PRD first |
+| Admin view | D06 requirement 8 | Still open. No story. Add one or cut |
 
 Related: my D06 claim describes the product as "user photographs ticket and
-gets advice." "Advice" conflicts with the PRD §7 legal line, and the
-photograph step isn't in the PRD. Either the PRD or that framing has to
+gets advice." The photograph step is now in the PRD (Story 5), but **"advice"
+still conflicts with the §7 legal line** — Story 5 produces a sourced
+comparison, not a recommendation. That half of the framing still has to
 change.
+
+**One thing Stories 5 and 6 add to the map:** a ticket photo is the most
+sensitive input the product takes, so the extraction prompt refuses to read
+the driver's name, licence number, date of birth, address and plate number
+even when they're plainly visible. Nothing we don't need is extracted, and
+nothing at all is stored.
 
 ## 5. Request trace: Story 1, hop by hop
 
