@@ -16,6 +16,9 @@ export default function Home() {
         <p>
           <Link className="btn btn--dark" href="/scan">
             Scan my ticket
+          </Link>{' '}
+          <Link className="btn" href="/tickets">
+            My tickets
           </Link>
         </p>
       </div>
